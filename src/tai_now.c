@@ -12,7 +12,7 @@ void tai_now(struct tai *t)
   nowtm = gmtime(&nowtime);
 
   ct.date.year = nowtm->tm_year + 1900;
-  ct.date.month = nowtm->tm_mon;
+  ct.date.month = nowtm->tm_mon + 1;
   ct.date.day = nowtm->tm_mday;
   ct.hour = nowtm->tm_hour;
   ct.minute = nowtm->tm_min;
