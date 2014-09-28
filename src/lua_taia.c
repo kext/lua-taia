@@ -179,7 +179,7 @@ static int lua_taia_debug(lua_State *L)
 {
   char s[128];
   struct taia *t = lua_checktaia(L, 1);
-  int l = snprintf(s, sizeof(s), "0x%016llx 0x%08llx 0x%08llx (%lld.%lld.%lld)", (long long)t->sec.x, (long long)t->nano, (long long)t->atto, (long long)t->sec.x, (long long)t->nano, (long long)t->atto);
+  int l = snprintf(s, sizeof(s), "0x%016llx 0x%08llx 0x%08llx (%lld.%09lld.%09lld)", (long long)t->sec.x, (long long)t->nano, (long long)t->atto, (long long)t->sec.x, (long long)t->nano, (long long)t->atto);
   if (l >= sizeof(s)) l = sizeof(s) - 1;
   lua_pushlstring(L, s, l);
   return 1;
