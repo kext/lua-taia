@@ -82,6 +82,8 @@ static int lua_taia_now(lua_State *L)
   return 1;
 }
 
+#define MAX_DURATION 4000000000000000000LL
+
 static int lua_taia_tostring(lua_State *L)
 {
   int l;
@@ -89,7 +91,7 @@ static int lua_taia_tostring(lua_State *L)
   char str[64];
   struct caltime ct;
   struct taia *t = lua_checktaia(L, 1);
-  if (t->sec.x > 1000000000000LL) {
+  if (t->sec.x > MAX_DURATION) {
     caltime_utc(&ct, &t->sec, 0, 0);
     /* XXX: Get correct offset. */
     caltime_apply_offset(&ct, 120);
@@ -107,6 +109,10 @@ static int lua_taia_add(lua_State *L)
   struct taia *t1, *t2, t3;
   t1 = lua_checktaia(L, 1);
   t2 = lua_checktaia(L, 2);
+  if (t1->sec.x > MAX_DURATION && t2->sec.x > MAX_DURATION) {
+    lua_pushliteral(L, "Addition of two absolute times is pointless.");
+    lua_error(L);
+  }
   taia_add(&t3, t1, t2);
   lua_pushtaia(L, &t3);
   return 1;
