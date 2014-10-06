@@ -149,6 +149,10 @@ static int lua_taia_less(lua_State *L)
 static int lua_taia_approx(lua_State *L)
 {
   struct taia *t = lua_checktaia(L, 1);
+  if (t->sec.x > MAX_DURATION) {
+    lua_pushliteral(L, "approx can only be used with durations.");
+    lua_error(L);
+  }
   lua_pushnumber(L, taia_approx(t));
   return 1;
 }
